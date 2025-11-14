@@ -1,0 +1,217 @@
+definitions:
+  handlers.CreateOpeningRequest:
+    properties:
+      company:
+        type: string
+      link:
+        type: string
+      location:
+        type: string
+      remote:
+        type: boolean
+      role:
+        type: string
+      salary:
+        type: integer
+    type: object
+  handlers.UpdateOpeningRequest:
+    properties:
+      company:
+        type: string
+      link:
+        type: string
+      location:
+        type: string
+      remote:
+        type: boolean
+      role:
+        type: string
+      salary:
+        type: integer
+    type: object
+  shemas.Opening:
+    properties:
+      company:
+        type: string
+      link:
+        type: string
+      location:
+        type: string
+      remote:
+        type: boolean
+      role:
+        type: string
+      salary:
+        format: int64
+        type: integer
+    type: object
+info:
+  contact: {}
+paths:
+  /opening:
+    post:
+      consumes:
+      - application/json
+      description: Cria uma nova vaga de emprego
+      parameters:
+      - description: Dados da nova vaga
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.CreateOpeningRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/shemas.Opening'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create opening
+      tags:
+      - Opening
+  /opening/{id}:
+    delete:
+      description: Deleta uma vaga existente pelo ID
+      parameters:
+      - description: ID da vaga
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/shemas.Opening'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete opening
+      tags:
+      - Openings
+    get:
+      description: Retorna uma vaga de emprego específica pelo ID
+      parameters:
+      - description: ID da vaga
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/shemas.Opening'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get opening by ID
+      tags:
+      - Openings
+    put:
+      consumes:
+      - application/json
+      description: Atualiza os dados de uma vaga existente pelo ID
+      parameters:
+      - description: ID da vaga
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Dados atualizados da vaga
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.UpdateOpeningRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/shemas.Opening'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update opening
+      tags:
+      - Openings
+  /openings:
+    get:
+      description: Retorna todas as vagas de emprego cadastradas
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/shemas.Opening'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: List openings
+      tags:
+      - Openings
+swagger: "2.0"
